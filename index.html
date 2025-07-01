@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>RoeiTrainer</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    #restIndicator {
+      display: none;
+      text-align: center;
+      font-size: 1.5em;
+      color: #ffffff;
+      background-color: #f44336;
+      margin: 10px 0;
+      border-radius: 8px;
+      animation: fadeInOut 1s ease-in-out infinite alternate;
+    }
+    @keyframes fadeInOut {
+      from { opacity: 0.5; }
+      to { opacity: 1; }
+    }
+    .progress-bar {
+      width: 100%;
+      height: 10px;
+      background-color: #ddd;
+      margin-top: 10px;
+    }
+    #progressFill {
+      height: 100%;
+      width: 0%;
+      background-color: #4CAF50;
+    }
+  </style>
+</head>
+<body>
+  <header class="navbar">
+    <div class="bounce"><h1>RowingMachineAid&reg;</h1>by J@n</div>
+  </header>
+  <div class="container">
+    <section class="card">
+      <label for="programs">Kies programma:</label>
+      <select id="programs"></select>
+      <div class="button-group">
+        <button id="startStopBtn">Start</button>
+        <button id="pauseBtn">Pauze</button> &bull;
+        <button id="resetBtn" hidden>Reset</button>
+        <button id="newProgramBtn">Nieuw Programma</button>
+        <button id="exportBtn">Exporteren</button>
+        <button id="importBtn">Importeren</button>&bull;
+        <input type="file" id="importInput" accept=".json" style="display: none;" />
+		<button id="exportHistoryBtn">Exporteer Geschiedenis</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <h3>Programma-overzicht</h3>
+      <table id="programTable">
+        <thead>
+          <tr>
+            <th>Ronde</th>
+            <th>Tijd (min)</th>
+            <th>Rust (min)</th>
+            <th>Slagfrequentie</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+    <section class="card visuals">
+      <div id="restIndicator">Rusttijd</div>
+      <img id="strokeImage" src="stroke1.png" alt="Slag visualisatie" />
+      <div>
+        [<span>Ronde #: </span><span id="round" style="font-weight:bold;">0</span>]&nbsp;
+        [<span>Geroeid tot.: </span><span id="totalTime" style="font-weight:bold;">00:00</span>]&nbsp;
+        [<span>Slagen tot.: </span><span id="strokeCount" style="font-weight:bold;">0</span>]&nbsp;
+        [<span>Ronde nog roeien: </span><span id="timeLeft" style="font-weight:bold;">00:00</span>]<br/>
+        [<span>Prog. roeien: </span><span id="totalDuration" style="font-weight:bold;">00:00</span>]&nbsp;
+        [<span>Prog. rust: </span><span id="totalRest" style="font-weight:bold;">00:00</span>]&nbsp;
+        [<span>Roeien + rust: </span><span id="totalCombined" style="font-weight:bold;">00:00</span>]
+      </div>
+      <div class="progress-bar"><div id="progressFill"></div></div>
+    </section>
+
+		<div id="liveClock">00:00</div>
+
+
+    <section class="card stats">
+      <h3>Statistieken</h3>
+      <div><strong>Totaal aantal slagen:</strong> <span id="totalStrokes">0</span></div>
+      <div><strong>Totale trainingstijd:</strong> <span id="totalMinutes">00:00</span></div>
+      <div><strong>Gemiddelde slagfrequentie:</strong> <span id="avgStrokeRate">0</span></div>
+      <canvas id="strokeChart" width="400" height="200"></canvas>
+    </section>
+
+    <section class="card stats">
+      <h3>Trainingsstatistieken</h3>
+      <div class="kpi">
+        <strong>Gemiddelde duur:</strong> <span id="avgDuration">0 min</span>
+      </div>
+      <canvas id="trainingChart" width="400" height="200"></canvas>
+    </section>
+  </div>
+  <div class="skiff"><img src="skiff.jpg" alt="skiff"></div>
+  <div id="countdown" class="countdown">Roei!</div>
+
+  <script src="app.js"></script>
+</body>
+</html>
